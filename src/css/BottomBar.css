@@ -1,0 +1,17 @@
+.btm-icon-text{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.btm-icon-text:hover{
+    cursor: pointer;
+}
+.btm-icon-text p{
+    padding: 0;
+    margin: 0;
+    font-size: 10px;
+}
+.bottombar-active{
+    color: rgb(56, 56, 255);
+}
