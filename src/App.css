@@ -24,7 +24,6 @@
   height: 35px;
 }
 .note-item{
-  /* background-color: red; */
   height: calc(500px - 135px);
   overflow-y: scroll;
   overflow-x: hidden;

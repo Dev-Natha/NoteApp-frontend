@@ -12,3 +12,7 @@ export type Props = {
     classStyle : String,
     handleClick: () => void
 }
+
+export type noteProps = {
+  notes : noteData[]
+}

@@ -3,25 +3,49 @@ import BottomBar from './components/BottomBar'
 import { MdOutlineStickyNote2 } from "react-icons/md";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import Notes from './components/Notes';
-import { Route, Routes } from "react-router-dom";
-import { useState } from 'react';
+import { Route, Routes, useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import {AxiosResponse} from "axios"
+import { instance } from "./customCode/ApiUrl";
+import { noteData } from "./customCode/types";
+import EditNote from './components/EditNote';
 
-const iconStyle : React.CSSProperties = {
-  fontSize : "20px",
-}
 function App() {
   const [noteActiveTab, toggleNoteActiveTab] = useState("bottombar-active")
   const [todoActiveTab, toggleTodoActiveTab] = useState("")
+  const navigate = useNavigate()
 
   function switchNote(){
     toggleNoteActiveTab("bottombar-active")
     toggleTodoActiveTab("")
+    navigate("/")
   }
 
   function switchTodo (){
     toggleNoteActiveTab("")
     toggleTodoActiveTab("bottombar-active")
   }
+
+  const [notes, setNotes] = useState<noteData[]>([])
+  const fetchData = async () => {
+    try {
+    
+    const response: AxiosResponse = await instance.get('/api/note/');
+    
+    const responseData: noteData[] = response.data;
+    setNotes(responseData)
+    
+    } catch (error) {
+      console.log(error)
+    }
+    
+  };  
+
+  useEffect(()=>{
+    fetchData()
+  },[])
+
+  
 
   return (
     <>
@@ -32,13 +56,14 @@ function App() {
           </div>
           <div className="note-item">
           <Routes>
-            <Route path='/' element={<Notes/>}/>
+            <Route path='/' element={<Notes notes={notes}/>}/>
+            <Route path='/note/:id' element={<EditNote/>}/>
           </Routes>
           </div>
         </div>
         <div className="bottom-bar" onClick={(e) => e}>
-          <BottomBar icon={<MdOutlineStickyNote2 style={iconStyle}/>} text="Notes" classStyle={noteActiveTab} handleClick={switchNote}/>
-          <BottomBar icon={<IoMdCheckmarkCircleOutline style={iconStyle}/>} text="To-dos" classStyle={todoActiveTab} handleClick={switchTodo}/>
+          <BottomBar icon={<MdOutlineStickyNote2 />} text="Notes" classStyle={noteActiveTab} handleClick={switchNote} />
+          <BottomBar icon={<IoMdCheckmarkCircleOutline />} text="To-dos" classStyle={todoActiveTab} handleClick={switchTodo}/>
         </div>
       </div>
     </>
