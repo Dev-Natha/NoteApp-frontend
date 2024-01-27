@@ -9,6 +9,7 @@ import {AxiosResponse} from "axios"
 import { instance } from "./customCode/ApiUrl";
 import { noteData } from "./customCode/types";
 import EditNote from './components/EditNote';
+import CreateNote from './components/CreateNote';
 
 function App() {
   const [noteActiveTab, toggleNoteActiveTab] = useState("bottombar-active")
@@ -57,7 +58,8 @@ function App() {
           <div className="note-item">
           <Routes>
             <Route path='/' element={<Notes notes={notes}/>}/>
-            <Route path='/note/:id' element={<EditNote/>}/>
+            <Route path='/note/:id' element={<EditNote fetchData={fetchData}/>}/>
+            <Route path='/note' element={<CreateNote  fetchData={fetchData}/>}/>
           </Routes>
           </div>
         </div>

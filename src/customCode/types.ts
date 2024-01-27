@@ -16,3 +16,12 @@ export type Props = {
 export type noteProps = {
   notes : noteData[]
 }
+
+export type singleNoteData = {
+  title : string | undefined
+  body: string | undefined
+}
+
+export type fetchNoteProps = {
+  fetchData: () => void
+}

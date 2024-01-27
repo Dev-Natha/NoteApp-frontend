@@ -27,14 +27,12 @@
     padding: 10px;
     border-radius: 5px;
     margin-top: 10px;
-}
-.note-item-element:hover{
     cursor: pointer;
 }
 .note-item h1{
     margin: 0;
     padding: 0;
-    font-size: 20px;
+    font-size: 18px;
     color: white;
 }
 .note-item p{
@@ -53,8 +51,6 @@
     position: absolute;
     left: calc(50% - 25px);
     bottom: 15%;
-}
-.add-icon-cont:hover{
     cursor: pointer;
 }
 .add-icon{
@@ -73,8 +69,9 @@
 .note-header h4{
     margin: 0;
     padding: 4px;
+    cursor: pointer;
 }
-.note-header h4{
+.angle-left{
     cursor: pointer;
 }
 .note-title textarea{
