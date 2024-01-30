@@ -2,6 +2,7 @@ import "../css/Notes.css"
 import { GoPlus } from "react-icons/go";
 import { Link } from "react-router-dom";
 import { noteProps } from "../customCode/types";
+import SearchBar from "./SearchBar";
 
 const Notes = ({notes}:noteProps) => {
   function formatNote(note:String):String{
@@ -13,9 +14,7 @@ const Notes = ({notes}:noteProps) => {
   }
   return (
     <div className="note-item">
-      <div className="note-inp-cont">
-        <div className="note-inp"><input type="text" placeholder="Search Notes" /></div>
-      </div>
+      <SearchBar placehold={"Search Notes"}/>
       <div className="note-item-cont">
         {notes.map(note => {
           return <Link to={`/note/${note.id}`} key={String(note.id)}>

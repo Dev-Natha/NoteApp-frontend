@@ -46,7 +46,7 @@ const CreateNote = ({fetchData}:fetchNoteProps) => {
                 <textarea placeholder="Title" ref={titleref}></textarea>
             </div>
             <div className="note-text">
-                <textarea placeholder="Note Something down" ref={bodyref}></textarea>
+                <textarea placeholder="Note something down" ref={bodyref}></textarea>
             </div>
         </div>
     )

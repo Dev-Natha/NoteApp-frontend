@@ -1,5 +1,5 @@
 import "../css/Notes.css"
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams, useNavigate} from "react-router-dom"
 import { AxiosResponse } from "axios"
 import { instance } from "../customCode/ApiUrl";
 import { useState, useEffect, useRef } from "react";
@@ -14,7 +14,6 @@ const EditNote = ({fetchData}:fetchNoteProps) => {
     const fetchNoteData = async () => {
         try {
             const response: AxiosResponse = await instance.get(`/api/note/${String(id)}/`);
-
             const responseData: noteData = response.data;
             setNote(responseData)
         } catch (error) {
@@ -50,7 +49,9 @@ const EditNote = ({fetchData}:fetchNoteProps) => {
             deleteNote(id)
         }
         else{
-            sendData(noteData)
+            if(noteData.title !== note?.title || noteData.body !== note?.body){
+                sendData(noteData)
+            }
         }
         navigate("/")
         fetchData()
@@ -80,7 +81,7 @@ const EditNote = ({fetchData}:fetchNoteProps) => {
                 <textarea defaultValue={note?.title.toString()} placeholder="Title" ref={titleref}></textarea>
             </div>
             <div className="note-text">
-                <textarea defaultValue={note?.body.toString()} placeholder="Note Something down" ref={bodyref}></textarea>
+                <textarea defaultValue={note?.body.toString()} placeholder="Note something down" ref={bodyref}></textarea>
             </div>
         </div>
     )
