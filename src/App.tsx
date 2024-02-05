@@ -30,7 +30,6 @@ function App() {
   const [notes, setNotes] = useState<noteData[]>([])
   const fetchData = async () => {
     try {
-    
     const response: AxiosResponse = await instance.get('/api/note/');
     
     const responseData: noteData[] = response.data;
@@ -40,8 +39,7 @@ function App() {
       console.log(error)
     }
     
-  };  
-
+  };
   useEffect(()=>{
     fetchData()
   },[])

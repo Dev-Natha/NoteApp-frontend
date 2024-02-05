@@ -35,6 +35,7 @@ const EditNote = ({fetchData}:fetchNoteProps) => {
             const response: AxiosResponse = await instance.put(`/api/note/${String(id)}/`, noteData)
             const responseData: noteData = response.data
             setNote(responseData)
+            fetchData()
         }
         catch(error){
             console.log(error)
@@ -54,11 +55,11 @@ const EditNote = ({fetchData}:fetchNoteProps) => {
             }
         }
         navigate("/")
-        fetchData()
     }
     const deleteData = async (id:Number) => {
         try{
             await instance.delete(`/api/note/${String(id)}/`)
+            fetchData()
         }
         catch(error){
             console.log(error)
@@ -68,7 +69,6 @@ const EditNote = ({fetchData}:fetchNoteProps) => {
         if (id){
             deleteData(id)
             navigate("/")
-            fetchData()
         }
     }
     return (

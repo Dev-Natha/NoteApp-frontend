@@ -18,6 +18,7 @@ const CreateNote = ({fetchData}:fetchNoteProps) => {
             const response: AxiosResponse = await instance.post("/api/note/", noteData)
             const responseData: noteData = response.data
             console.log(responseData)
+            fetchData()
         }
         catch(error){
             console.log(error)
@@ -33,7 +34,6 @@ const CreateNote = ({fetchData}:fetchNoteProps) => {
             postData(noteData)
         }
         navigate("/")
-        fetchData()
     }
 
     return (
