@@ -13,31 +13,23 @@ const Notes = ({notes}:noteProps) => {
     }
     return note
   }
+  function displayNotes(notes: noteData[]) {
+    return notes.map((note) => (
+      <Link to={`/note/${note.id}`} key={String(note.id)}>
+        <div className="note-item-element">
+          <h1>{note.title ? formatNote(note.title) : "(no title)"}</h1>
+          <p>{formatNote(note.body)}</p>
+          <span>{new Date(note.updated.toString()).toLocaleString()}</span>
+        </div>
+      </Link>
+    ));
+  }
+  
   return (
     <div className="note-item">
       <SearchBar placehold={"Search Notes"} notes={notes} filteredNotes={filteredNotes} setFilteredNotes={setFilteredNotes}/>
       <div className="note-item-cont">
-        {filteredNotes?filteredNotes.map(note => {
-          return <Link to={`/note/${note.id}`} key={String(note.id)}>
-            <div className="note-item-element">
-              <h1>{note.title?formatNote(note.title):"(no title)"}
-              </h1>
-              <p>{formatNote(note.body)}</p>
-              <span>{new Date(note.updated.toString()).toLocaleString()}</span>
-            </div>
-          </Link>
-        })
-        :
-        notes?.map(note => {
-          return <Link to={`/note/${note.id}`} key={String(note.id)}>
-            <div className="note-item-element">
-              <h1>{note.title?formatNote(note.title):"(no title)"}
-              </h1>
-              <p>{formatNote(note.body)}</p>
-              <span>{new Date(note.updated.toString()).toLocaleString()}</span>
-            </div>
-          </Link>
-        })}
+        {filteredNotes? displayNotes(filteredNotes) : displayNotes(notes)}
       </div>
       <div className="add-icon-cont">
         <Link to={"note"}>
