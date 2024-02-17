@@ -1,0 +1,15 @@
+.authform{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+}
+.authform-cont{
+    background-color: rgb(55, 55, 55);
+    height: fit-content;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+}

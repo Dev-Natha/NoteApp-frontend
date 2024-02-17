@@ -10,11 +10,13 @@ import { instance } from "./customCode/ApiUrl";
 import { noteData } from "./customCode/types";
 import EditNote from './components/EditNote';
 import CreateNote from './components/CreateNote';
+import AuthForm from './components/AuthForm';
 
 function App() {
   const [noteActiveTab, toggleNoteActiveTab] = useState("bottombar-active")
   const [todoActiveTab, toggleTodoActiveTab] = useState("")
   const navigate = useNavigate()
+  const [loggedIn, setIsLoggedIn] = useState(false)
 
   function switchNote(){
     toggleNoteActiveTab("bottombar-active")
@@ -56,7 +58,7 @@ function App() {
           </div>
           <div className="note-item">
           <Routes>
-            <Route path='/' element={<Notes notes={notes}/>}/>
+            <Route path='/' element={loggedIn ? <Notes notes={notes}/> : <AuthForm />}/>
             <Route path='/note/:id' element={<EditNote fetchData={fetchData}/>}/>
             <Route path='/note' element={<CreateNote  fetchData={fetchData}/>}/>
           </Routes>
