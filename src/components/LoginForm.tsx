@@ -12,12 +12,12 @@ const LoginForm = () => {
             src="/note-appicon.png"
             alt="Your Company"
           />
-          <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-white">
+          <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-white">
             Sign in to your account
           </h2>
         </div>
 
-        <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" action="#" method="POST">
             <div>
               <label htmlFor="username" className="block text-sm font-medium leading-6 text-white">
@@ -63,7 +63,7 @@ const LoginForm = () => {
             </div>
           </form>
 
-          <p className="mt-5 text-center text-sm text-gray-500">
+          <p className="mt-2 text-center text-sm text-gray-500">
             Don't have an account?{' '}
             <Link to="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
               Register
