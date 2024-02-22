@@ -2,7 +2,6 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import {AxiosResponse} from "axios"
 import { instance } from "../customCode/ApiUrl"
-
 type registerResponse = {jwt:string, py:{exp:string, iat:string, id:number}}
 
 const RegisterForm = () => {
@@ -11,13 +10,14 @@ const RegisterForm = () => {
     const [password2, setPassword2] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
 
-    async function submitForm(){
-        const registerData = {username:username, password1:password1, password2:password2}
+    async function submitForm(e:React.FormEvent<HTMLFormElement>){
+        e.preventDefault()
+        const registerData = {username, password1, password2}
         try{
             const response: AxiosResponse = await instance.post("/api/register/", registerData)
             const responseData: string[] | registerResponse = response.data
             if (typeof responseData === 'object' && responseData !== null && 'jwt' in responseData && 'py' in responseData) {
-                console.log("Response is of the expected type");
+                console.log(responseData)
                 setErrorMessage("")
             } else {
                 setErrorMessage(responseData[0])
@@ -42,7 +42,7 @@ const RegisterForm = () => {
 
             <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
                 <p style={{color:"#ff3737", fontWeight:"bold", margin:"0", padding:"0"}}>{errorMessage && errorMessage}</p>
-                <form className="space-y-6" action="" method="POST">
+                <form className="space-y-6" action="" method="POST" onSubmit={(e) => submitForm(e)}>
                     <div>
                         <label htmlFor="username" className="block text-sm font-medium leading-6 text-white">
                             Username
@@ -100,9 +100,8 @@ const RegisterForm = () => {
 
                     <div>
                         <button
-                            type="button"
+                            type="submit"
                             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            onClick={submitForm}
                         >
                             Sign Up
                         </button>
