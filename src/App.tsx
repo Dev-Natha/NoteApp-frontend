@@ -43,10 +43,40 @@ function App() {
     }
     
   };
+  
+  // const validateLogin = async () => {
+  //   try {
+  //     const response = await fetch('http://localhost:8000/api/user', {
+  //     headers: {'Content-Type': 'application/json'},
+  //     credentials: 'include',
+  //     });
+
+  //     const responseData = await response.json();
+  //     console.log(responseData)
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  // }
+  const validateLogin = () => {
+    try {
+     fetch('http://localhost:8000/api/user', {
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+      })
+      .then((resp) => resp.json())
+      .then((data) => console.log(data))
+      } catch (error) {
+        console.log(error)
+      }
+  }
 
   useEffect(()=>{
     fetchData()
   },[])
+
+  useEffect(()=>{
+    validateLogin()
+  }, [])
 
   
 

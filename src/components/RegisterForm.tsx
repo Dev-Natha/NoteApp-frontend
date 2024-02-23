@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, redirect } from "react-router-dom"
 import {AxiosResponse} from "axios"
 import { instance } from "../customCode/ApiUrl"
 type registerResponse = {jwt:string, py:{exp:string, iat:string, id:number}}
