@@ -10,22 +10,41 @@ const RegisterForm = () => {
     const [password2, setPassword2] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
 
-    async function submitForm(e:React.FormEvent<HTMLFormElement>){
+    // async function submitForm(e:React.FormEvent<HTMLFormElement>){
+    //     e.preventDefault()
+    //     const registerData = {username, password1, password2}
+    //     try{
+    //         const response: AxiosResponse = await instance.post("/api/register/", registerData)
+    //         const responseData: string[] | registerResponse = response.data
+    //         if (typeof responseData === 'object' && responseData !== null && 'jwt' in responseData && 'py' in responseData) {
+    //             console.log(responseData)
+    //             setErrorMessage("")
+    //         } else {
+    //             setErrorMessage(responseData[0])
+    //         }
+    //     }
+    //     catch(error){
+    //         console.log(error)
+    //     }
+       
+    // }
+
+    function submitForm(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault()
         const registerData = {username, password1, password2}
-        try{
-            const response: AxiosResponse = await instance.post("/api/register/", registerData)
-            const responseData: string[] | registerResponse = response.data
-            if (typeof responseData === 'object' && responseData !== null && 'jwt' in responseData && 'py' in responseData) {
-                console.log(responseData)
+         fetch('http://localhost:8000/api/register/', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify(registerData)
+        }).then((resp) => resp.json()).then((data:string[] | registerResponse) =>{
+            if (typeof data === 'object' && data !== null && 'jwt' in data && 'py' in data) {
+                console.log(data)
                 setErrorMessage("")
             } else {
-                setErrorMessage(responseData[0])
+                setErrorMessage(data[0])
             }
-        }
-        catch(error){
-            console.log(error)
-        }
+        }).catch((err) => console.log(err))
     }
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-0 lg:px-8">
