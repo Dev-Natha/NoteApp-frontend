@@ -3,7 +3,7 @@ import BottomBar from './components/BottomBar'
 import { MdOutlineStickyNote2 } from "react-icons/md";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import Notes from './components/Notes';
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import {AxiosResponse} from "axios"
 import { instance } from "./customCode/ApiUrl";
@@ -17,7 +17,10 @@ function App() {
   const [noteActiveTab, toggleNoteActiveTab] = useState("bottombar-active")
   const [todoActiveTab, toggleTodoActiveTab] = useState("")
   const navigate = useNavigate()
-  const [loggedIn, setIsLoggedIn] = useState(false)
+  const [loggedIn, setIsLoggedIn] = useState(localStorage.getItem('loggedIn') === 'true')
+ 
+
+
 
   function switchNote(){
     toggleNoteActiveTab("bottombar-active")
@@ -66,9 +69,12 @@ function App() {
       .then((resp) => resp.json())
       .then((data) => {
         if (data.detail){
+          localStorage.removeItem('loggedIn');
+          setIsLoggedIn(false)
           return navigate("/login")
         }
         else{
+          localStorage.setItem('loggedIn', 'true');
           setIsLoggedIn(true)
           fetchData()
         }
@@ -94,11 +100,11 @@ function App() {
           </div>
           <div className="note-item">
           <Routes>
-            <Route path='/' element={<Notes notes={notes} loggedIn={loggedIn}/>}/>
-            <Route path='/note/:id' element={<EditNote fetchData={fetchData}/>}/>
-            <Route path='/note' element={<CreateNote  fetchData={fetchData}/>}/>
-            <Route path='/register' element={<RegisterForm />}/>
-            <Route path='/login' element={<LoginForm />}/>
+            <Route path='/' element={loggedIn ? <Notes notes={notes}/> : <Navigate to={"/login"}/>}/>
+            <Route path='/note/:id' element={loggedIn ? <EditNote fetchData={fetchData}/>: <Navigate to={"/login"}/>}/>
+            <Route path='/note' element={loggedIn ? <CreateNote  fetchData={fetchData}/> : <Navigate to={"/login"}/>}/>
+            <Route path='/register' element={loggedIn ? <Navigate to={"/"}/> : <RegisterForm />}/>
+            <Route path='/login' element={loggedIn ? <Navigate to={"/"}/> : <LoginForm />}/>
           </Routes>
           </div>
         </div>
