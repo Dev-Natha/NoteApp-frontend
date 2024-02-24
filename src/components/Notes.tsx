@@ -1,10 +1,14 @@
 import "../css/Notes.css"
 import { GoPlus } from "react-icons/go";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { noteProps, noteData } from "../customCode/types";
 import SearchBar from "./SearchBar";
 import { useState } from "react";
-const Notes = ({notes}:noteProps) => {
+const Notes = ({notes, loggedIn}:noteProps) => {
+  const navigate = useNavigate()
+  if (loggedIn){
+    navigate("/login")
+  }
   const [filteredNotes, setFilteredNotes] = useState<noteData[] | undefined>()
   function formatNote(note:String):String{
     if (note.length > 35){

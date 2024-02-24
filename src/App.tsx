@@ -64,15 +64,20 @@ function App() {
       credentials: 'include',
       })
       .then((resp) => resp.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        if (data.detail){
+          return navigate("/login")
+        }
+        else{
+          setIsLoggedIn(true)
+          fetchData()
+        }
+      })
       } catch (error) {
         console.log(error)
+
       }
   }
-
-  useEffect(()=>{
-    fetchData()
-  },[])
 
   useEffect(()=>{
     validateLogin()
@@ -89,10 +94,11 @@ function App() {
           </div>
           <div className="note-item">
           <Routes>
-            <Route path='/' element={loggedIn ? <Notes notes={notes}/> : <LoginForm />}/>
+            <Route path='/' element={<Notes notes={notes} loggedIn={loggedIn}/>}/>
             <Route path='/note/:id' element={<EditNote fetchData={fetchData}/>}/>
             <Route path='/note' element={<CreateNote  fetchData={fetchData}/>}/>
             <Route path='/register' element={<RegisterForm />}/>
+            <Route path='/login' element={<LoginForm />}/>
           </Routes>
           </div>
         </div>

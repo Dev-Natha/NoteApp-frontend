@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link, redirect } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import {AxiosResponse} from "axios"
 import { instance } from "../customCode/ApiUrl"
 type registerResponse = {jwt:string, py:{exp:string, iat:string, id:number}}
@@ -9,6 +9,7 @@ const RegisterForm = () => {
     const [password1, setPassword1] = useState("")
     const [password2, setPassword2] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
+    const navigate = useNavigate()
 
     // async function submitForm(e:React.FormEvent<HTMLFormElement>){
     //     e.preventDefault()
@@ -39,8 +40,10 @@ const RegisterForm = () => {
             body: JSON.stringify(registerData)
         }).then((resp) => resp.json()).then((data:string[] | registerResponse) =>{
             if (typeof data === 'object' && data !== null && 'jwt' in data && 'py' in data) {
-                console.log(data)
+                alert("Registeration successful")
                 setErrorMessage("")
+                navigate('/')
+
             } else {
                 setErrorMessage(data[0])
             }

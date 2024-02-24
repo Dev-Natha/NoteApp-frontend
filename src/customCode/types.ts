@@ -15,6 +15,8 @@ export type Props = {
 
 export type noteProps = {
   notes : noteData[]
+  loggedIn : boolean
+
 }
 
 export type singleNoteData = {
