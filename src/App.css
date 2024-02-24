@@ -23,6 +23,13 @@
 .note-head{
   height: 20px;
   margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.note-head p{
+  font-size: 12px;
+  margin-right: 12px;
 }
 .note-item{
   height: calc(500px - 115px);

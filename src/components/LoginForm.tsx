@@ -1,9 +1,35 @@
 // import { Link } from "react-router-dom"
 // import { CiLogin } from "react-icons/ci";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import "../css/Auth.css"
+import { useState } from "react"
+type registerResponse = {jwt:string, py:{exp:string, iat:string, id:number}}
 
 const LoginForm = () => {
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
+  const navigate = useNavigate()
+
+  function submitForm(e:React.FormEvent<HTMLFormElement>){
+    e.preventDefault()
+    const loginData = {username, password}
+     fetch('http://localhost:8000/api/login/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify(loginData)
+    }).then((resp) => resp.json()).then((data:string[] | registerResponse) =>{
+        if (typeof data === 'object' && data !== null && 'jwt' in data && 'py' in data) {
+            alert("Login successful")
+            setErrorMessage("")
+            navigate('/')
+
+        } else {
+            setErrorMessage(data[0])
+        }
+    }).catch((err) => console.log(err))
+}
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-0 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -18,7 +44,8 @@ const LoginForm = () => {
         </div>
 
         <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+        <p style={{color:"#ff3737", fontWeight:"bold", margin:"0", padding:"0"}}>{errorMessage && errorMessage}</p>
+          <form className="space-y-6" action="" method="POST" onSubmit={(e) => submitForm(e)}>
             <div>
               <label htmlFor="username" className="block text-sm font-medium leading-6 text-white">
                 Username
@@ -31,6 +58,7 @@ const LoginForm = () => {
                   autoComplete="username"
                   required
                   className="block w-full rounded-md border-0 py-1.5 px-2 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-300 sm:text-sm sm:leading-6"
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
             </div>
@@ -49,6 +77,7 @@ const LoginForm = () => {
                   autoComplete="current-password"
                   required
                   className="block w-full rounded-md border-0 py-1.5 px-2 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </div>

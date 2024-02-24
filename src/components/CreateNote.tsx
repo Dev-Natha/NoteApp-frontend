@@ -1,7 +1,5 @@
 import "../css/Notes.css"
 import { useNavigate } from "react-router-dom"
-import { AxiosResponse } from "axios"
-import { instance } from "../customCode/ApiUrl";
 import { useRef } from "react";
 import { noteData } from "../customCode/types";
 import { FaAngleLeft } from "react-icons/fa6";
@@ -15,8 +13,14 @@ const CreateNote = ({fetchData}:fetchNoteProps) => {
 
     const postData = async(noteData:singleNoteData) =>{
         try{
-            const response: AxiosResponse = await instance.post("/api/note/", noteData)
-            const responseData: noteData = response.data
+            const response = await fetch('http://localhost:8000/api/note/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                credentials: 'include',
+                body: JSON.stringify(noteData)
+            });
+    
+            const responseData: noteData = await response.json()
             console.log(responseData)
             fetchData()
         }

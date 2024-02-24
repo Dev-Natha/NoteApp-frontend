@@ -1,7 +1,5 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import {AxiosResponse} from "axios"
-import { instance } from "../customCode/ApiUrl"
 type registerResponse = {jwt:string, py:{exp:string, iat:string, id:number}}
 
 const RegisterForm = () => {

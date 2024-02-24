@@ -3,10 +3,8 @@ import BottomBar from './components/BottomBar'
 import { MdOutlineStickyNote2 } from "react-icons/md";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import Notes from './components/Notes';
-import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
+import { Route, Routes, useNavigate, Navigate, Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
-import {AxiosResponse} from "axios"
-import { instance } from "./customCode/ApiUrl";
 import { noteData } from "./customCode/types";
 import EditNote from './components/EditNote';
 import CreateNote from './components/CreateNote';
@@ -18,6 +16,7 @@ function App() {
   const [todoActiveTab, toggleTodoActiveTab] = useState("")
   const navigate = useNavigate()
   const [loggedIn, setIsLoggedIn] = useState(localStorage.getItem('loggedIn') === 'true')
+  const [username, setUsername] = useState("")
  
 
 
@@ -36,9 +35,12 @@ function App() {
   const [notes, setNotes] = useState<noteData[]>([])
   const fetchData = async () => {
     try {
-    const response: AxiosResponse = await instance.get('/api/note/');
+    const response = await fetch('http://localhost:8000/api/note', {
+          headers: {'Content-Type': 'application/json'},
+          credentials: 'include',
+          });
     
-    const responseData: noteData[] = response.data;
+    const responseData: noteData[] = await response.json();
     setNotes(responseData)
     
     } catch (error) {
@@ -68,15 +70,16 @@ function App() {
       })
       .then((resp) => resp.json())
       .then((data) => {
-        if (data.detail){
+        if (data.id){
+          localStorage.setItem('loggedIn', 'true');
+          setIsLoggedIn(true)
+          setUsername(data.username)
+          fetchData()
+        }
+        else{
           localStorage.removeItem('loggedIn');
           setIsLoggedIn(false)
           return navigate("/login")
-        }
-        else{
-          localStorage.setItem('loggedIn', 'true');
-          setIsLoggedIn(true)
-          fetchData()
         }
       })
       } catch (error) {
@@ -97,6 +100,7 @@ function App() {
         <div className="note-container">
           <div className='note-head'>
             <h2>{noteActiveTab === "bottombar-active" ? "Notes" : "To-dos"}</h2>
+            {username && <p>Hello {username} &nbsp; <span><Link to={""}>Logout</Link></span></p>}
           </div>
           <div className="note-item">
           <Routes>
