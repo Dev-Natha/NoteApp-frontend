@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { noteProps, noteData } from "../customCode/types";
 import SearchBar from "./SearchBar";
 import { useState } from "react";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 const Notes = ({notes}:noteProps) => {
   const [filteredNotes, setFilteredNotes] = useState<noteData[] | undefined>()
   function formatNote(note:String):String{
@@ -17,14 +19,13 @@ const Notes = ({notes}:noteProps) => {
     return notes.map((note) => (
       <Link to={`/note/${note.id}`} key={String(note.id)}>
         <div className="note-item-element">
-          <h1>{note.title ? formatNote(note.title) : "(no title)"}</h1>
-          <p>{formatNote(note.body)}</p>
-          <span>{new Date(note.updated.toString()).toLocaleString()}</span>
+          <h1>{note.title ? formatNote(note.title) : "(no title)" || <Skeleton />}</h1>
+          <p>{formatNote(note.body) || <Skeleton />}</p>
+          <span>{new Date(note.updated.toString()).toLocaleString() || <Skeleton />}</span>
         </div>
       </Link>
     ));
   }
-  
   return (
     <div className="note-item">
       <SearchBar placehold={"Search Notes"} notes={notes} filteredNotes={filteredNotes} setFilteredNotes={setFilteredNotes}/>

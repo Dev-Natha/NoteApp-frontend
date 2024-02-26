@@ -6,7 +6,7 @@ import { FaAngleLeft } from "react-icons/fa6";
 import { singleNoteData } from "../customCode/types";
 import { fetchNoteProps } from "../customCode/types";
 
-const CreateNote = ({fetchData}:fetchNoteProps) => {
+const CreateNote = ({validateLogin}:fetchNoteProps) => {
     const titleref = useRef<HTMLTextAreaElement>(null)
     const bodyref = useRef<HTMLTextAreaElement>(null)
     const navigate = useNavigate()
@@ -22,7 +22,7 @@ const CreateNote = ({fetchData}:fetchNoteProps) => {
     
             const responseData: noteData = await response.json()
             console.log(responseData)
-            fetchData()
+            validateLogin()
         }
         catch(error){
             console.log(error)

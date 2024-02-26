@@ -1,11 +1,10 @@
-// import { Link } from "react-router-dom"
-// import { CiLogin } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom"
 import "../css/Auth.css"
 import { useState } from "react"
+import { fetchNoteProps } from "../customCode/types"
 type registerResponse = {jwt:string, py:{exp:string, iat:string, id:number}}
 
-const LoginForm = () => {
+const LoginForm = ({validateLogin}:fetchNoteProps) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
@@ -23,6 +22,7 @@ const LoginForm = () => {
         if (typeof data === 'object' && data !== null && 'jwt' in data && 'py' in data) {
             alert("Login successful")
             setErrorMessage("")
+            validateLogin()
             navigate('/')
 
         } else {

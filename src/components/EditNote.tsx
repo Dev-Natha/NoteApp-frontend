@@ -8,7 +8,7 @@ import { FaAngleLeft } from "react-icons/fa6";
 import { singleNoteData } from "../customCode/types";
 import { fetchNoteProps } from "../customCode/types";
 
-const EditNote = ({fetchData}:fetchNoteProps) => {
+const EditNote = ({validateLogin}:fetchNoteProps) => {
     const { id } = useParams()
     const [note, setNote] = useState<noteData | null>(null)
     const fetchNoteData = async () => {
@@ -35,7 +35,7 @@ const EditNote = ({fetchData}:fetchNoteProps) => {
             const response: AxiosResponse = await instance.put(`/api/note/${String(id)}/`, noteData)
             const responseData: noteData = response.data
             setNote(responseData)
-            fetchData()
+            validateLogin()
         }
         catch(error){
             console.log(error)
@@ -59,7 +59,7 @@ const EditNote = ({fetchData}:fetchNoteProps) => {
     const deleteData = async (id:Number) => {
         try{
             await instance.delete(`/api/note/${String(id)}/`)
-            fetchData()
+            validateLogin()
         }
         catch(error){
             console.log(error)

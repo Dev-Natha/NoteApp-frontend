@@ -24,5 +24,5 @@ export type singleNoteData = {
 }
 
 export type fetchNoteProps = {
-  fetchData: () => void
+  validateLogin: () => void
 }

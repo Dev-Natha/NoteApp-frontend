@@ -1,32 +1,15 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { fetchNoteProps } from "../customCode/types"
 type registerResponse = {jwt:string, py:{exp:string, iat:string, id:number}}
 
-const RegisterForm = () => {
+const RegisterForm = ({validateLogin}:fetchNoteProps) => {
     const [username, setUsername] = useState("")
     const [password1, setPassword1] = useState("")
     const [password2, setPassword2] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
     const navigate = useNavigate()
 
-    // async function submitForm(e:React.FormEvent<HTMLFormElement>){
-    //     e.preventDefault()
-    //     const registerData = {username, password1, password2}
-    //     try{
-    //         const response: AxiosResponse = await instance.post("/api/register/", registerData)
-    //         const responseData: string[] | registerResponse = response.data
-    //         if (typeof responseData === 'object' && responseData !== null && 'jwt' in responseData && 'py' in responseData) {
-    //             console.log(responseData)
-    //             setErrorMessage("")
-    //         } else {
-    //             setErrorMessage(responseData[0])
-    //         }
-    //     }
-    //     catch(error){
-    //         console.log(error)
-    //     }
-       
-    // }
 
     function submitForm(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault()
@@ -40,6 +23,7 @@ const RegisterForm = () => {
             if (typeof data === 'object' && data !== null && 'jwt' in data && 'py' in data) {
                 alert("Registeration successful")
                 setErrorMessage("")
+                validateLogin()
                 navigate('/')
 
             } else {

@@ -19,7 +19,24 @@ function App() {
   const [username, setUsername] = useState("")
  
 
-
+  function logout(){
+    try {
+      fetch('http://localhost:8000/api/logout/', {
+      method: "POST",
+       headers: {'Content-Type': 'application/json'},
+       credentials: 'include',
+       })
+       .then((resp) => resp.json())
+       .then((data) => {
+        console.log(data)
+         localStorage.removeItem("loggedIn")
+         validateLogin()
+       })
+       } catch (error) {
+         console.log(error)
+ 
+       }
+  }
 
   function switchNote(){
     toggleNoteActiveTab("bottombar-active")
@@ -49,19 +66,6 @@ function App() {
     
   };
   
-  // const validateLogin = async () => {
-  //   try {
-  //     const response = await fetch('http://localhost:8000/api/user', {
-  //     headers: {'Content-Type': 'application/json'},
-  //     credentials: 'include',
-  //     });
-
-  //     const responseData = await response.json();
-  //     console.log(responseData)
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  // }
   const validateLogin = () => {
     try {
      fetch('http://localhost:8000/api/user', {
@@ -79,6 +83,7 @@ function App() {
         else{
           localStorage.removeItem('loggedIn');
           setIsLoggedIn(false)
+          setUsername("")
           return navigate("/login")
         }
       })
@@ -100,15 +105,15 @@ function App() {
         <div className="note-container">
           <div className='note-head'>
             <h2>{noteActiveTab === "bottombar-active" ? "Notes" : "To-dos"}</h2>
-            {username && <p>Hello {username} &nbsp; <span><Link to={""}>Logout</Link></span></p>}
+            {username && <p>Hello {username} &nbsp; <span><Link to={""} onClick={logout}>Logout</Link></span></p>}
           </div>
           <div className="note-item">
           <Routes>
             <Route path='/' element={loggedIn ? <Notes notes={notes}/> : <Navigate to={"/login"}/>}/>
-            <Route path='/note/:id' element={loggedIn ? <EditNote fetchData={fetchData}/>: <Navigate to={"/login"}/>}/>
-            <Route path='/note' element={loggedIn ? <CreateNote  fetchData={fetchData}/> : <Navigate to={"/login"}/>}/>
-            <Route path='/register' element={loggedIn ? <Navigate to={"/"}/> : <RegisterForm />}/>
-            <Route path='/login' element={loggedIn ? <Navigate to={"/"}/> : <LoginForm />}/>
+            <Route path='/note/:id' element={loggedIn ? <EditNote validateLogin={validateLogin}/>: <Navigate to={"/login"}/>}/>
+            <Route path='/note' element={loggedIn ? <CreateNote  validateLogin={validateLogin}/> : <Navigate to={"/login"}/>}/>
+            <Route path='/register' element={loggedIn ? <Navigate to={"/"}/> : <RegisterForm validateLogin={validateLogin} />}/>
+            <Route path='/login' element={loggedIn ? <Navigate to={"/"}/> : <LoginForm validateLogin={validateLogin} />}/>
           </Routes>
           </div>
         </div>
